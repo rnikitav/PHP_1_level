@@ -6,8 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (empty($_POST['commit'])){
         header("Location: ?page=3&id={$id}&article={$article}");
         exit;
-    }else{
-        $comment = $_POST['commit'];
+    }
+    if ($comment = $_POST['commit']){
         print_r("rabotaet");
         $sql = "INSERT INTO 
                 comments 
@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         header("Location: ?page=3&id={$id}&article={$article}");
         exit;
     }
+
 }
 $sql = 'SELECT id, name, description, img, price, comments, article FROM goods WHERE id = ' . $id;
 $result = mysqli_query($link, $sql);
