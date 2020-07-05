@@ -6,7 +6,14 @@ function showOneProdAction($id, $article)
     }
     $sql = 'SELECT id, name, description, img, price, comments, article FROM goods WHERE id = ' . $id;
     $result = mysqli_query(getConnection(), $sql);
-    echo render('openedProduct.php', ['result' => $result]);
+    $row = mysqli_fetch_assoc($result);
+    $sqlForComments = "SELECT id, article, comment FROM comments WHERE article = '$article'";
+    $resultComments = mysqli_query(getConnection(), $sqlForComments);
+    echo render('openedProduct.php', [
+        'row' => $row,
+        'comments' => $resultComments,
+        'title' => 'Товар ' . $row['article']
+    ]);
 }
 
 function showOnePost($id, $article){
