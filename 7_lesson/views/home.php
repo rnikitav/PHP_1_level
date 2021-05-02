@@ -2,6 +2,10 @@
     <h1 id="promoText">
         Новый PhoneBrand это лучший смартфон
     </h1>
+    <h2 id="promoText">Login / Password</h2>
+    <p id="promoTextP">admin / 123</p>
+    <p id="promoTextP">123 / 123</p>
+    <p id="promoTextP">asd / asd</p>
 </div>
 
 <div id="mainTextWrap">

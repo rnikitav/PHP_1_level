@@ -47,7 +47,15 @@ function render($template, $params = [], $layout = 'main.php')
 {
     $content = renderTmpl($template, $params);
     $layout = 'layouts/' . $layout;
-    return renderTmpl($layout, ['content' => $content]);
+    $title = 'Test';
+    if (!empty($params['title'])){
+        $title = $params['title'];
+    }
+    return renderTmpl($layout, [
+        'content' => $content,
+        'title' => $title,
+        'msg' => getMsg()
+        ]);
 }
 
 function renderTmpl($template, $params = [])
@@ -73,4 +81,38 @@ function getArticle()
         return $_GET['article'];
     }
     return 0;
+}
+function setMsg($text){
+    $_SESSION['msg'] = $text;
+}
+function getMsg(){
+    $text = '';
+    if (!empty($_SESSION['msg'])){
+        $text = $_SESSION['msg'];
+        unset($_SESSION['msg']);
+    }
+    return $text;
+}
+
+function isSingIn(){
+    return array_key_exists('Login',$_SESSION);
+}
+
+function isAdmin(){
+    return !empty($_SESSION['user']['is_admin']);
+}
+
+function clearString($str){
+    return mysqli_real_escape_string(getConnection(), strip_tags(trim($str)));
+}
+function redirect($path = ''){
+    if (!empty($path)){
+         header("Location: {$path}");
+         return;
+    }
+    if (isset($_SERVER['HTTP_REFERER'])){
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+        return;
+    }
+    header('Location: /');
 }

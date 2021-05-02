@@ -1,6 +1,9 @@
 <?php
-$row = mysqli_fetch_assoc($result);
+/** @var $comments  */
 ?>
+<div id="app">
+
+
 <div id="content">
     <div id="openedProduct-img">
         <img src="images/goods/<?= $row['img'] ?>" alt="photo">
@@ -15,10 +18,9 @@ $row = mysqli_fetch_assoc($result);
         <div id="openedProduct-price">
             Цена: <?= $row['price'] ?> $
         </div>
-        <div>
-            <form action="#">
-                <button ></button>
-            </form>
+        <div class="btnByu">
+            <a href="/?p=shopcart&a=add&article=<?=$row['article']?>" class="addToCart">Добавить в корзину PHP</a>
+            <a href="#" @click="addToCart" class="addToCart">Добавить в корзину JS</a>
         </div>
     </div>
 <?php
@@ -29,13 +31,30 @@ if (getArticle()) : ?>
     </form>
 <?php endif; ?>
 
-<?php
-$article = getArticle();
-$sql = "SELECT id, article, comment FROM comments WHERE article = '$article'";
-$result = mysqli_query(getConnection(), $sql); ?>
 <div class="comments">
-<?php while ($row = mysqli_fetch_assoc($result)) : ?>
+<?php while ($row = mysqli_fetch_assoc($comments)) : ?>
     <h3><?=$row['comment']?></h3>
 <?php endwhile; ?>
 </div>
 </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data:{
+            goodsId : <?= getId()?>
+        },
+        methods: {
+            addToCart(){
+                let form = new FormData();
+                form.append('goodId', this.goodsId);
+                axios.post(
+                    '?p=shopcart&a=axiosAdd',
+                    form
+                ).then(function (response) {
+                    console.log(response);
+                });
+            }
+        }
+    })
+</script>

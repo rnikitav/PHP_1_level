@@ -1,6 +1,14 @@
 <?php
-session_start();
 function indexAction()
 {
-    echo render('loginUser.php');
+    if (isSingIn()){
+        echo render('loginUser.php',
+        [
+            'user' => $_SESSION,
+            'title' => 'Личная страница'
+        ]);
+        return;
+    }
+    header('Location: /');
+
 }
